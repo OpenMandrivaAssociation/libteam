@@ -73,12 +73,12 @@ This package contains a library which is a user-space
 counterpart for team network driver. It provides an API
 for the team network control daemon..
 
-%package -n	python-libteam
+%package -n	python2-libteam
 Group:		Development/Python
 Summary:	Team network device library bindings
 Requires:	teamnl = %{EVRD}
 
-%description -n python-libteam
+%description -n python2-libteam
 The team-python package contains a module that permits applications
 written in the Python programming language to use the interface
 supplied by team network device library.
@@ -103,10 +103,11 @@ chmod -x _tmpdoc2/examples/*.py
 autoreconf -fsv
 
 %build
+export PYTHON=%{__python2}
 %configure
 %make
 cd binding/python
-python ./setup.py build
+%{__python2} ./setup.py build
 
 %install
 %makeinstall_std
@@ -155,8 +156,8 @@ python ./setup.py install --root %{buildroot} -O1
 %files -n %{libtmdc}
 %{_libdir}/libteamdctl.so.%{tdmajor}*
 
-%files -n python-libteam
+%files -n python2-libteam
 %doc _tmpdoc2/examples
-%{python_sitearch}/team-1.0-py%{py_ver}.egg-info
+%{py2_sitearch}/team-1.0-py%{py2_ver}.egg-info
 %dir %{python_sitearch}/team
-%{python_sitearch}/team/*
+%{py2_sitearch}/team/*
