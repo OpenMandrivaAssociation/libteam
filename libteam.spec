@@ -110,6 +110,7 @@ cd binding/python
 %{__python2} ./setup.py build
 
 %install
+export PYTHON=%{__python2}
 %makeinstall_std
 install -p teamd/dbus/teamd.conf -D %{buildroot}%{_sysconfdir}/dbus-1/system.d/teamd.conf
 install -p teamd/redhat/systemd/teamd@.service -D %{buildroot}%{_unitdir}/teamd@.service
@@ -119,7 +120,7 @@ install -p -m755 teamd/redhat/initscripts_systemd/network-scripts/ifup-TeamPort 
 install -p -m755 teamd/redhat/initscripts_systemd/network-scripts/ifdown-TeamPort -D %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifdown-TeamPort
 install -p -m755 utils/bond2team -D %{buildroot}%{_bindir}/bond2team
 cd binding/python
-python ./setup.py install --root %{buildroot} -O1
+%{__python2} ./setup.py install --root %{buildroot} -O1
 
 %files -n teamnl
 %{_bindir}/teamnl
