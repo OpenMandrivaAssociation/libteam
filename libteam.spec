@@ -159,6 +159,6 @@ cd binding/python
 
 %files -n python2-libteam
 %doc _tmpdoc2/examples
-%{py2_sitearch}/team-1.0-py%{py2_ver}.egg-info
-%dir %{python_sitearch}/team
-%{py2_sitearch}/team/*
+%{python2_sitearch}/team-1.0-py%{py2_ver}.egg-info
+%dir %{python2_sitearch}/team
+%{python2_sitearch}/team/*
