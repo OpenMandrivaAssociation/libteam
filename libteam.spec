@@ -1,12 +1,12 @@
-%define	tmajor	5
-%define	libteam	%mklibname team %{tmajor}
-%define	tdmajor	0
-%define	libtmdc	%mklibname teamdctl %{tdmajor}
-%define	devname	%mklibname team -d
+%define tmajor 5
+%define libteam %mklibname team %{tmajor}
+%define tdmajor 0
+%define libtmdc %mklibname teamdctl %{tdmajor}
+%define devname %mklibname team -d
 
 Name:		libteam
 Version:	1.18
-Release:	3
+Release:	4
 Summary:	Library for controlling team network device
 Group:		System/Libraries
 License:	LGPLv2+
@@ -17,7 +17,7 @@ Patch0:		libteam-1.10-add-missing-libteamdctl-libdaemon-dependency.patch
 BuildRequires:	pkgconfig(jansson)
 BuildRequires:	pkgconfig(libdaemon)
 BuildRequires:	pkgconfig(libnl-3.0)
-BuildREquires:	pkgconfig(libzmq)
+BuildRequires:	pkgconfig(libzmq)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	swig
@@ -27,7 +27,7 @@ This package contains a library which is a user-space
 counterpart for team network driver. It provides an API
 to control team network devices.
 
-%package -n	teamnl
+%package -n teamnl
 Summary:	team network device Netlink interface tool
 Group:		System/Configuration/Networking
 
@@ -36,7 +36,7 @@ teamnl is a tool enabling interaction with a team device via the team driver
 Netlink interface.
 This tools serves mainly for debugging purposes.
 
-%package -n	%{libteam}
+%package -n %{libteam}
 Summary:	Library for controlling team network device
 Group:		System/Libraries
 
@@ -45,7 +45,7 @@ This package contains a library which is a user-space
 counterpart for team network driver. It provides an API
 to control team network devices.
 
-%package -n	%{devname}
+%package -n %{devname}
 Group:		Development/C
 Summary:	Libraries and header files for libteam & teamd development
 Requires:	teamnl = %{EVRD}
@@ -56,7 +56,7 @@ Requires:	%{libtmdc} = %{EVRD}
 This package contains the header files and libraries
 necessary for developing programs using libteam & libteamdctl.
 
-%package -n	teamd
+%package -n teamd
 Group:		System/Configuration/Networking
 Summary:	Team network device control daemon
 Requires:	teamnl = %{EVRD}
@@ -64,7 +64,7 @@ Requires:	teamnl = %{EVRD}
 %description -n teamd
 The teamd package contains team network device control daemon.
 
-%package -n	%{libtmdc}
+%package -n %{libtmdc}
 Summary:	Library for team network device control daemon
 Group:		System/Libraries
 
@@ -73,7 +73,7 @@ This package contains a library which is a user-space
 counterpart for team network driver. It provides an API
 for the team network control daemon..
 
-%package -n	python2-libteam
+%package -n python2-libteam
 Group:		Development/Python
 Summary:	Team network device library bindings
 Requires:	teamnl = %{EVRD}
