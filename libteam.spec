@@ -5,7 +5,7 @@
 %define devname %mklibname team -d
 
 Name:		libteam
-Version:	1.23
+Version:	1.27
 Release:	1
 Summary:	Library for controlling team network device
 Group:		System/Libraries
