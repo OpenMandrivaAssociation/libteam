@@ -6,7 +6,7 @@
 
 Name:		libteam
 Version:	1.27
-Release:	1
+Release:	2
 Summary:	Library for controlling team network device
 Group:		System/Libraries
 License:	LGPLv2+
