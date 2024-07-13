@@ -1,0 +1,40 @@
+diff -up libteam-1.32/binding/python/team/capi.i.omv~ libteam-1.32/binding/python/team/capi.i
+--- libteam-1.32/binding/python/team/capi.i.omv~	2024-07-13 20:59:35.036772814 +0200
++++ libteam-1.32/binding/python/team/capi.i	2024-07-13 21:00:25.245326385 +0200
+@@ -45,13 +45,15 @@ int team_hwaddr_set(struct team_handle *
+ %apply char *OUTPUT {char *addr};
+ int team_hwaddr_get(struct team_handle *th, uint32_t ifindex, char *addr, unsigned int addr_len);
+ 
+-%typemap(python, in) PyObject *PyFunc {
++#ifdef SWIGPYTHON
++%typemap(in) PyObject *PyFunc {
+   if (!PyCallable_Check($input)) {
+       PyErr_SetString(PyExc_TypeError, "Need a callable object!");
+       return NULL;
+   }
+   $1 = $input;
+ }
++#endif
+ 
+ %typemap(in) void (*func)(struct team_handle *, void *,
+                           team_change_type_mask_t) {
+diff -up libteam-1.32/binding/python/team/capi.i.in.omv~ libteam-1.32/binding/python/team/capi.i.in
+--- libteam-1.32/binding/python/team/capi.i.in.omv~	2024-07-13 21:03:38.803457348 +0200
++++ libteam-1.32/binding/python/team/capi.i.in	2024-07-13 21:03:58.383672686 +0200
+@@ -45,13 +45,15 @@ int team_hwaddr_set(struct team_handle *
+ %apply char *OUTPUT {char *addr};
+ int team_hwaddr_get(struct team_handle *th, uint32_t ifindex, char *addr, unsigned int addr_len);
+ 
+-%typemap(python, in) PyObject *PyFunc {
++#ifdef SWIGPYTHON
++%typemap(in) PyObject *PyFunc {
+   if (!PyCallable_Check($input)) {
+       PyErr_SetString(PyExc_TypeError, "Need a callable object!");
+       return NULL;
+   }
+   $1 = $input;
+ }
++#endif
+ 
+ %typemap(in) void (*func)(struct team_handle *, void *,
+                           team_change_type_mask_t) {

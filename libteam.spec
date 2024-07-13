@@ -1,26 +1,34 @@
+# For the python module
+%define _disable_ld_no_undefined 1
+
 %define tmajor 5
-%define libteam %mklibname team %{tmajor}
+%define oldlibteam %mklibname team 5
+%define libteam %mklibname team
 %define tdmajor 0
-%define libtmdc %mklibname teamdctl %{tdmajor}
+%define oldlibtmdc %mklibname teamdctl 0
+%define libtmdc %mklibname teamdctl
 %define devname %mklibname team -d
 
 Name:		libteam
-Version:	1.31
-Release:	3
+Version:	1.32
+Release:	1
 Summary:	Library for controlling team network device
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		http://www.libteam.org
 Source0:	http://www.libteam.org/files/%{name}-%{version}.tar.gz
 Source1:	teamd_zmq_common.h
-Patch0:		libteam-1.10-add-missing-libteamdctl-libdaemon-dependency.patch
 BuildRequires:	pkgconfig(jansson)
 BuildRequires:	pkgconfig(libdaemon)
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	pkgconfig(libzmq)
-BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	swig
+
+%patchlist
+libteam-1.10-add-missing-libteamdctl-libdaemon-dependency.patch
+libteam-1.32-swig-4.2.patch
 
 %description
 This package contains a library which is a user-space
@@ -39,6 +47,7 @@ This tools serves mainly for debugging purposes.
 %package -n %{libteam}
 Summary:	Library for controlling team network device
 Group:		System/Libraries
+%rename %{oldlibteam}
 
 %description -n	%{libteam}
 This package contains a library which is a user-space
@@ -67,18 +76,21 @@ The teamd package contains team network device control daemon.
 %package -n %{libtmdc}
 Summary:	Library for team network device control daemon
 Group:		System/Libraries
+%rename %{oldlibtmdc}
 
 %description -n	%{libtmdc}
 This package contains a library which is a user-space
 counterpart for team network driver. It provides an API
 for the team network control daemon..
 
-%package -n python2-libteam
+%package -n python-libteam
 Group:		Development/Python
 Summary:	Team network device library bindings
 Requires:	teamnl = %{EVRD}
+# Not really, but let's get rid of ancient cruft...
+Obsoletes:	python2-libteam < %{EVRD}
 
-%description -n python2-libteam
+%description -n python-libteam
 The team-python package contains a module that permits applications
 written in the Python programming language to use the interface
 supplied by team network device library.
@@ -87,8 +99,7 @@ This package should be installed if you want to develop Python
 programs that will manipulate team network devices.
 
 %prep
-%setup -q
-%patch0 -p1 -b .libdaemon~
+%autosetup -p1
 
 # missing from tarball, fetched from git
 cp %{SOURCE1} teamd/
@@ -103,15 +114,15 @@ chmod -x _tmpdoc2/examples/*.py
 autoreconf -fsv
 
 %build
-export PYTHON=%{__python2}
+export PYTHON=%{__python}
 %configure
 %make
 cd binding/python
-%{__python2} ./setup.py build
+%{__python} ./setup.py build
 
 %install
-export PYTHON=%{__python2}
-%makeinstall_std
+export PYTHON=%{__python}
+%make_install
 install -p teamd/dbus/teamd.conf -D %{buildroot}%{_sysconfdir}/dbus-1/system.d/teamd.conf
 install -p teamd/redhat/systemd/teamd@.service -D %{buildroot}%{_unitdir}/teamd@.service
 install -p -m755 teamd/redhat/initscripts_systemd/network-scripts/ifup-Team -D %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifup-Team
@@ -120,7 +131,7 @@ install -p -m755 teamd/redhat/initscripts_systemd/network-scripts/ifup-TeamPort 
 install -p -m755 teamd/redhat/initscripts_systemd/network-scripts/ifdown-TeamPort -D %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifdown-TeamPort
 install -p -m755 utils/bond2team -D %{buildroot}%{_bindir}/bond2team
 cd binding/python
-%{__python2} ./setup.py install --root %{buildroot} -O1
+%{__python} ./setup.py install --root %{buildroot} -O1
 
 %files -n teamnl
 %{_bindir}/teamnl
@@ -157,8 +168,8 @@ cd binding/python
 %files -n %{libtmdc}
 %{_libdir}/libteamdctl.so.%{tdmajor}*
 
-%files -n python2-libteam
+%files -n python-libteam
 %doc _tmpdoc2/examples
-%{python2_sitearch}/team-1.0-py%{py2_ver}.egg-info
-%dir %{python2_sitearch}/team
-%{python2_sitearch}/team/*
+%{python_sitearch}/team-1.0-py%{pyver}.egg-info
+%dir %{python_sitearch}/team
+%{python_sitearch}/team/*
