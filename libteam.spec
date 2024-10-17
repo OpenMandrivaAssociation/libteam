@@ -15,7 +15,7 @@ Release:	1
 Summary:	Library for controlling team network device
 Group:		System/Libraries
 License:	LGPLv2+
-URL:		http://www.libteam.org
+URL:		https://www.libteam.org
 Source0:	http://www.libteam.org/files/%{name}-%{version}.tar.gz
 Source1:	teamd_zmq_common.h
 BuildRequires:	pkgconfig(jansson)
