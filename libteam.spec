@@ -18,6 +18,11 @@ License:	LGPLv2+
 URL:		https://www.libteam.org
 Source0:	http://www.libteam.org/files/%{name}-%{version}.tar.gz
 Source1:	teamd_zmq_common.h
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(jansson)
 BuildRequires:	pkgconfig(libdaemon)
 BuildRequires:	pkgconfig(libnl-3.0)
